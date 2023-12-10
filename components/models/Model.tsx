@@ -71,6 +71,7 @@ export default function Model({isOpen, onClose, onSumbit, title, body, footer, a
                           )}
                             <Button disabled={disabled} label={actionLabel} onclick={handelSubmit} />
                         </div>
+                        {footer}
                     </div>
                 </div>
             </div>
