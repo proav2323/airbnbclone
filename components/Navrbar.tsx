@@ -4,8 +4,10 @@ import Container from './Container'
 import Logo from './Logo'
 import Search from './Search'
 import UserMenu from './UserMenu'
+import { User } from '@prisma/client'
+import { saveUser } from '@/types'
 
-export default function Navrbar() {
+export default function Navrbar({currentUser}: {currentUser?: saveUser | null}) {
   return (
     <div className='fined w-full shadow-sm bg0white z-10'>
         <div className='py-4 border-b-[1px]'>
@@ -13,7 +15,7 @@ export default function Navrbar() {
                 <div className='flex flex-row items-center justify-between gap-3 md:gap-0'>
                    <Logo />
                    <Search />
-                   <UserMenu />
+                   <UserMenu currentUser={currentUser} />
                 </div>
             </Container>
         </div>

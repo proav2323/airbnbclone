@@ -11,17 +11,20 @@ import Heading from '../Heading'
 import Input from '../Input'
 import toast from 'react-hot-toast'
 import Button from '../Button'
-import { signIn } from 'next-auth/react'
+import useLoginModel from '@/hooks/useLoginModel'
+import {signIn} from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
-export default function RegisterModel() {
+export default function LoginModel() {
 
     const registerModel = useRegisterModel();
+    const loginModel = useLoginModel();
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const {register, handleSubmit, formState: {
         errors
     }} = useForm<FieldValues>({
         defaultValues: {
-            name: "",
             email: "",
             password: ""
         }
@@ -29,21 +32,28 @@ export default function RegisterModel() {
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
-        axios.post("/api/register", data).then(() => {
-            registerModel.onClose();
-        }).catch((err) => {
-            toast.error(err.message);
-        })
-        .finally(() => {
+        signIn("credentials", {
+            ...data,
+            redirect: false
+        }).then((callback) => {
             setIsLoading(false);
+           if (callback?.ok) {
+             toast.success("logged in")
+             router.refresh();
+             loginModel.onClose();
+           }
+
+           if (callback?.error) {
+           toast.error(callback.error)
+           }
+
         })
     }
 
     const bodyContent = (
         <div className='flex flex-col gap-4'>
-            <Heading title='Welcome To Airbnb' subtitle='Create An Account' />
+            <Heading title='Welcome Back' subtitle='login to your Account' />
             <Input id="email" label='Email' disabled={isLoading} register={register} required errors={errors} />
-            <Input id="name" label='Name' disabled={isLoading} register={register} required errors={errors} />
             <Input id="password" type='password' label='Password' disabled={isLoading} register={register} required errors={errors} />
         </div>
     )
@@ -67,6 +77,6 @@ export default function RegisterModel() {
     )
 
   return (
-   <Model disabled={isLoading} isOpen={registerModel.isOpen} title='Register' actionLabel='Continue' onClose={registerModel.onClose} onSumbit={handleSubmit(onSubmit)} body={bodyContent} footer={footerContent} />
+   <Model disabled={isLoading} isOpen={loginModel.isOpen} title='Login' actionLabel='Continue' onClose={loginModel.onClose} onSumbit={handleSubmit(onSubmit)} body={bodyContent} footer={footerContent} />
   )
 }
