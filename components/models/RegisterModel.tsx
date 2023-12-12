@@ -12,10 +12,12 @@ import Input from '../Input'
 import toast from 'react-hot-toast'
 import Button from '../Button'
 import { signIn } from 'next-auth/react'
+import useLoginModel from '@/hooks/useLoginModel'
 
 export default function RegisterModel() {
 
     const registerModel = useRegisterModel();
+    const loginModel = useLoginModel()
     const [isLoading, setIsLoading] = useState(false);
     const {register, handleSubmit, formState: {
         errors
@@ -26,6 +28,11 @@ export default function RegisterModel() {
             password: ""
         }
     });
+
+    const openLoginModel = useCallback(() => {
+        registerModel.onClose();
+        loginModel.onOpen();
+    }, [registerModel, loginModel])
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
@@ -58,7 +65,7 @@ export default function RegisterModel() {
                 <div>
                     Already Have An Account?
                 </div>
-                <div onClick={() => registerModel.onClose()} className='font-bold text-neutral-800 cursor-pointer hover:underline'>
+                <div onClick={openLoginModel} className='font-bold text-neutral-800 cursor-pointer hover:underline'>
                    Login
                 </div>
             </div>

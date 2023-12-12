@@ -58,6 +58,11 @@ export default function LoginModel() {
         </div>
     )
 
+    const openRegisterModel = useCallback(() => {
+        loginModel.onClose();
+        registerModel.onOpen();
+    }, [registerModel, loginModel])
+
     const footerContent = (
         <div className='flex flex-col gap-4 mt-3'>
            <hr></hr>
@@ -66,10 +71,10 @@ export default function LoginModel() {
            <div className='text-neutral-500 text-center mt-4 font-light'>
           <div className='flex flex-row items-center gap-2 justify-center'>
                 <div>
-                    Already Have An Account?
+                    first time using airbnb?
                 </div>
-                <div onClick={() => registerModel.onClose()} className='font-bold text-neutral-800 cursor-pointer hover:underline'>
-                   Login
+                <div onClick={openRegisterModel} className='font-bold text-neutral-800 cursor-pointer hover:underline'>
+                   create an account
                 </div>
             </div>
           </div>

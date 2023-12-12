@@ -6,6 +6,7 @@ import Search from './Search'
 import UserMenu from './UserMenu'
 import { User } from '@prisma/client'
 import { saveUser } from '@/types'
+import Categories from './Categories'
 
 export default function Navrbar({currentUser}: {currentUser?: saveUser | null}) {
   return (
@@ -19,6 +20,7 @@ export default function Navrbar({currentUser}: {currentUser?: saveUser | null}) 
                 </div>
             </Container>
         </div>
+        <Categories />
     </div>
   )
 }
