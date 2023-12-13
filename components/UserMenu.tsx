@@ -8,6 +8,7 @@ import useLoginModel from '@/hooks/useLoginModel';
 import { User } from '@prisma/client';
 import { signOut } from 'next-auth/react';
 import { saveUser } from '@/types';
+import useRentModel from '@/hooks/useRentModel';
 
 export default function UserMenu({currentUser}: {currentUser?: saveUser | null}) {
     const [isOpen, setIsOpen] = useState(false);
@@ -16,10 +17,18 @@ export default function UserMenu({currentUser}: {currentUser?: saveUser | null})
     }, [])
     const registerModel = useRegisterModel();
     const loginModel = useLoginModel();
+    const rentModel = useRentModel();
+    const onRent = useCallback(() => {
+      if (!currentUser) {
+        return loginModel.onOpen();
+      }
+
+      rentModel.onOpen();
+    }, [loginModel, currentUser, rentModel])
   return (
     <div className='relative'>
         <div className='flex flex-row items-center gap-3 '>
-            <div className='hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer ' onClick={() => {}}>
+            <div className='hidden md:block text-sm font-semibold py-3 px-4 rounded-full hover:bg-neutral-100 transition cursor-pointer ' onClick={onRent}>
                  Airbnb Your Home
             </div>
             <div className='p-4 md:py-2 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition' onClick={toggleOpen}>
@@ -38,7 +47,7 @@ export default function UserMenu({currentUser}: {currentUser?: saveUser | null})
                         <MenuItem onClick={() => {}} label="my Favorites" />
                         <MenuItem onClick={() => {}} label="my Reservations" />
                         <MenuItem onClick={() => {}} label="my Properties" />
-                        <MenuItem onClick={() => {}} label="Airbnb my home" />
+                        <MenuItem onClick={onRent} label="Airbnb my home" />
                         <hr />
                         <MenuItem onClick={() => signOut()} label="Logout" />
                       </>
