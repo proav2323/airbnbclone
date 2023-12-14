@@ -39,7 +39,7 @@ export default function RegisterModel() {
         axios.post("/api/register", data).then(() => {
             registerModel.onClose();
         }).catch((err) => {
-            toast.error(err.message);
+            toast.error(err.response.data);
         })
         .finally(() => {
             setIsLoading(false);
