@@ -7,6 +7,7 @@ import UserMenu from './UserMenu'
 import { User } from '@prisma/client'
 import { saveUser } from '@/types'
 import Categories from './Categories'
+import Loader from './Loader'
 
 export default function Navrbar({currentUser}: {currentUser?: saveUser | null}) {
   return (
