@@ -1,5 +1,5 @@
 import getCurrentUser from '@/actions/getCurrentUser';
-import getListings, { IlISTINGSpROPS } from '@/actions/getListings';
+import getListings, { IListingsParams } from '@/actions/getListings';
 import getReservations from '@/actions/getReservations';
 import ClientOnly from '@/components/ClientOnly'
 import Container from '@/components/Container'
@@ -8,7 +8,7 @@ import ListingCard from '@/components/ListingCard';
 import { SafeReservation } from '@/types';
 import { Listing, Reservation } from '@prisma/client';
 
-export default async function Home({searchParams}: {searchParams: IlISTINGSpROPS}) {
+export default async function Home({searchParams}: {searchParams: IListingsParams}) {
   const listings = await getListings(searchParams);
   const currentUser = await getCurrentUser();
 
