@@ -37,7 +37,9 @@ export default function RegisterModel() {
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
         axios.post("/api/register", data).then(() => {
+            toast.success("register successfull")
             registerModel.onClose();
+            loginModel.onOpen();
         }).catch((err) => {
             toast.error(err.response.data);
         })

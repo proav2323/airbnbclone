@@ -1,7 +1,7 @@
 "use client"
 import { Listing, Reservation, User } from '@prisma/client'
 import React, { useCallback, useMemo } from 'react'
-import {saveUser} from '@/types/index'
+import {SafeListing, SafeReservation, saveUser} from '@/types/index'
 import {useRouter} from "next/navigation"
 import useCountries from '@/hooks/useCountries'
 import Image from "next/image"
@@ -9,7 +9,7 @@ import {format} from 'date-fns'
 import HeartButton from './HeartButton'
 import Button from './Button'
 
-export default function ListingCard({data, currentUser, reservation, onAction, disabled, actionId = "", actionLabel}: {data: Listing, currentUser?: saveUser | null, reservation?: Reservation, onAction?: (id: string) => void, disabled?: boolean, actionLabel?: string, actionId?: string}) {
+export default function ListingCard({data, currentUser, reservation, onAction, disabled, actionId = "", actionLabel, isFav = true}: {data: Listing | SafeListing, currentUser?: saveUser | null, reservation?: SafeReservation, onAction?: (id: string) => void, disabled?: boolean, actionLabel?: string, actionId?: string, isFav?: boolean}) {
   const router = useRouter();
   const {getByValue} = useCountries();
   const location = getByValue(data.locationValue);
@@ -50,7 +50,7 @@ export default function ListingCard({data, currentUser, reservation, onAction, d
         <div className="aspect-square w-full relative overflow-hidden rounded-lg">
           <Image fill src={data.imageSrc} alt="listing image" className='object-cover h-full w-full group-hover:scale-110 transition' />
           <div className='absoluet top-3 right-3'>
-             <HeartButton listingId={data.id} currentUser={currentUser} />
+             {isFav && (<HeartButton listingId={data.id} currentUser={currentUser} />)}
           </div>
         </div>
                 <div className="font-semibold text-lg">

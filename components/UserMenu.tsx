@@ -9,6 +9,7 @@ import { User } from '@prisma/client';
 import { signOut } from 'next-auth/react';
 import { saveUser } from '@/types';
 import useRentModel from '@/hooks/useRentModel';
+import {useRouter} from 'next/navigation'
 
 export default function UserMenu({currentUser}: {currentUser?: saveUser | null}) {
     const [isOpen, setIsOpen] = useState(false);
@@ -18,6 +19,7 @@ export default function UserMenu({currentUser}: {currentUser?: saveUser | null})
     const registerModel = useRegisterModel();
     const loginModel = useLoginModel();
     const rentModel = useRentModel();
+    const router = useRouter();
     const onRent = useCallback(() => {
       if (!currentUser) {
         return loginModel.onOpen();
@@ -43,10 +45,10 @@ export default function UserMenu({currentUser}: {currentUser?: saveUser | null})
                 <div className='flex flex-col cursor-pointer'>
                     {currentUser ? (
                       <>
-                        <MenuItem onClick={() => {}} label="my Trips" />
-                        <MenuItem onClick={() => {}} label="my Favorites" />
-                        <MenuItem onClick={() => {}} label="my Reservations" />
-                        <MenuItem onClick={() => {}} label="my Properties" />
+                        <MenuItem onClick={() => router.push("/trips")} label="my Trips" />
+                        <MenuItem onClick={() => router.push("/favorites")} label="my Favorites" />
+                        <MenuItem onClick={() => router.push("/reservations")} label="my Reservations" />
+                        <MenuItem onClick={() => router.push("/properties")} label="my Properties" />
                         <MenuItem onClick={onRent} label="Airbnb my home" />
                         <hr />
                         <MenuItem onClick={() => signOut()} label="Logout" />
