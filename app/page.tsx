@@ -9,7 +9,7 @@ import { SafeReservation } from '@/types';
 import { Listing, Reservation } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 
-export const dynamic = 'auto';
+export const dynamic = 'force-dynamic';
 
 export default async function Home({searchParams}: {searchParams: IListingsParams}) {
   const listings = await getListings(searchParams);
